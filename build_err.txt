@@ -1,0 +1,15 @@
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugKotlin'.
+> Cannot access input property 'sources' of task ':app:compileDebugKotlin'. Accessing unreadable inputs or outputs is not supported. Declare the task as untracked by using Task.doNotTrackState(). For more information, please refer to https://docs.gradle.org/9.2.1/userguide/incremental_build.html#sec:disable-state-tracking in the Gradle documentation.
+   > java.io.IOException: Cannot snapshot C:\Users\aayan\OneDrive\Desktop\TradeLearn\app\src\main\java\com\example\tradelearn\navigation\MainNavigation.kt: not a regular file
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 10s

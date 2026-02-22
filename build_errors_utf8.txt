@@ -1,0 +1,103 @@
+﻿> Task :app:clean FAILED
+./gradlew : 
+At line:1 char:1
++ ./gradlew clean 
+compileDebugKotlin > 
+build_errors.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : N 
+   otSpecified: (:String) [],   
+  RemoteException
+    + FullyQualifiedErrorId : N 
+   ativeCommandError
+ 
+FAILURE: Build failed with an 
+exception.
+
+* What went wrong:
+Execution failed for task 
+':app:clean'.
+> java.io.IOException: Unable 
+to delete directory 'C:\Users\aa
+yan\OneDrive\Desktop\TradeLearn\
+app\build'
+    Failed to delete some 
+children. This might happen 
+because a process has files 
+open or has its working 
+directory set in the target 
+directory.
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\gener
+ated\res\pngs\debug
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\gener
+ated\res\pngs
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\gener
+ated\res
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\gener
+ated\updated_navigation_xml\debu
+g
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\gener
+ated\updated_navigation_xml
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\gener
+ated
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\inter
+mediates\aar_metadata_check\debu
+g\checkDebugAarMetadata
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\inter
+mediates\aar_metadata_check\debu
+g
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\inter
+mediates\aar_metadata_check
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\inter
+mediates\android_res_source_set_
+path_map\debug\mapDebugSourceSet
+Paths
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\inter
+mediates\android_res_source_set_
+path_map\debug
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\inter
+mediates\android_res_source_set_
+path_map
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\inter
+mediates\annotation_processor_li
+st\debug\javaPreCompileDebug
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\inter
+mediates\annotation_processor_li
+st\debug
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\inter
+mediates\annotation_processor_li
+st
+    - C:\Users\aayan\OneDrive\De
+sktop\TradeLearn\app\build\inter
+mediates\apk\debug
+    - and more ...
+
+* Try:
+> Run with --stacktrace option 
+to get the stack trace.
+> Run with --info or --debug 
+option to get more log output.
+> Run with --scan to generate a 
+Build Scan (powered by 
+Develocity).
+> Get more help at 
+https://help.gradle.org.
+
+BUILD FAILED in 6s
+1 actionable task: 1 executed
