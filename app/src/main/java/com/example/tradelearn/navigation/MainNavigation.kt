@@ -1,5 +1,6 @@
 package com.example.tradelearn.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -7,6 +8,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,13 +35,15 @@ import com.example.tradelearn.SupabaseClient
 import com.example.tradelearn.ui.HomeMapScreen // Updated!
 import com.example.tradelearn.ui.LessonScreen // Updated!
 import com.example.tradelearn.ui.LessonViewModel // Updated!
-import com.example.tradelearn.ui.theme.PrimaryIndigo // Import your new color!
+import com.example.tradelearn.ui.theme.*
 import io.github.jan.supabase.gotrue.auth
 
 // 1. Define the Routes (The URLs for your app screens)
 sealed class Screen(val route: String, val title: String, val icon: ImageVector) {
     object Onboarding : Screen("onboarding", "Onboarding", Icons.Default.Home)
     object Learn : Screen("learn", "Learn", Icons.Default.Home)
+    object Leaderboard : Screen("leaderboard", "Rank", Icons.Default.Star) // NEW
+    object Quests : Screen("quests", "Quests", Icons.Default.MailOutline) // NEW
     object Profile : Screen("profile", "Me", Icons.Default.Person)
 
     // The lesson route takes an ID so it knows which chapter to load from Supabase
@@ -55,7 +60,14 @@ fun MainScreen() {
     val currentRoute = navBackStackEntry?.destination?.route
 
     // Only show the bottom bar on the main tabs, NOT inside a lesson!
-    val showBottomBar = currentRoute in listOf(Screen.Learn.route, Screen.Profile.route)
+    val showBottomBar =
+            currentRoute in
+                    listOf(
+                            Screen.Learn.route,
+                            Screen.Leaderboard.route,
+                            Screen.Quests.route,
+                            Screen.Profile.route
+                    )
 
     Scaffold(
             bottomBar = {
@@ -64,7 +76,7 @@ fun MainScreen() {
                 }
             }
     ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
+        Box(modifier = Modifier.padding(paddingValues).background(BackgroundWhite)) {
             NavigationGraph(navController = navController)
         }
     }
@@ -104,7 +116,6 @@ fun NavigationGraph(navController: NavHostController) {
 
             // Tab 1: The Learning Path (Map)
             composable(Screen.Learn.route) {
-                // Replaced the placeholder with your HomeMapScreen!
                 HomeMapScreen(
                         onChapterClick = { chapterId ->
                             navController.navigate(Screen.Lesson.createRoute(chapterId))
@@ -112,11 +123,24 @@ fun NavigationGraph(navController: NavHostController) {
                 )
             }
 
-            // Tab 2: The Profile
-            composable(Screen.Profile.route) {
-                com.example.tradelearn.ui
-                        .ProfileScreen() // Replaced the simple Text() with our new dashboard!
+            // Tab 2: Leaderboard
+            composable(Screen.Leaderboard.route) {
+                // TODO: com.example.tradelearn.ui.LeaderboardScreen()
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text("Leaderboard")
+                }
             }
+
+            // Tab 3: Quests
+            composable(Screen.Quests.route) {
+                // TODO: com.example.tradelearn.ui.QuestsScreen()
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text("Quests")
+                }
+            }
+
+            // Tab 4: The Profile
+            composable(Screen.Profile.route) { com.example.tradelearn.ui.ProfileScreen() }
 
             // The Lesson Engine
             composable(
@@ -132,23 +156,24 @@ fun NavigationGraph(navController: NavHostController) {
         }
     } else {
         // Show a blank screen or a loading spinner for the split-second it takes to check
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator(color = PrimaryIndigo)
-        }
+        Box(
+                modifier = Modifier.fillMaxSize().background(BackgroundWhite),
+                contentAlignment = Alignment.Center
+        ) { CircularProgressIndicator(color = PrimaryIndigo) }
     }
 }
 
 // 4. The Bottom Tab Bar UI (Styled like your screenshots)
 @Composable
 fun BottomNavigationBar(navController: NavHostController, currentRoute: String?) {
-    val tabs = listOf(Screen.Learn, Screen.Profile)
+    val tabs = listOf(Screen.Learn, Screen.Leaderboard, Screen.Quests, Screen.Profile)
 
     NavigationBar(containerColor = Color.White, tonalElevation = 8.dp) {
         tabs.forEach { screen ->
+            val isSelected = currentRoute == screen.route
             NavigationBarItem(
                     icon = { Icon(screen.icon, contentDescription = screen.title) },
-                    label = { Text(screen.title) },
-                    selected = currentRoute == screen.route,
+                    selected = isSelected,
                     onClick = {
                         navController.navigate(screen.route) {
                             // Pop up to the start destination to avoid massive backstacks
@@ -161,12 +186,10 @@ fun BottomNavigationBar(navController: NavHostController, currentRoute: String?)
                     },
                     colors =
                             NavigationBarItemDefaults.colors(
-                                    selectedIconColor = PrimaryIndigo,
-                                    selectedTextColor = PrimaryIndigo,
-                                    unselectedIconColor = Color.Gray,
-                                    unselectedTextColor = Color.Gray,
+                                    selectedIconColor = Blue500,
+                                    unselectedIconColor = Slate400,
                                     indicatorColor =
-                                            Color.Transparent // Keeps it clean, no weird bubbles
+                                            Blue50 // Soft blue background for the selected icon
                             )
             )
         }

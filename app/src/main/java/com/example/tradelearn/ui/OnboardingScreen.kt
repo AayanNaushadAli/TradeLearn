@@ -60,7 +60,26 @@ fun OnboardingScreen(
 
                 // --- UI SWAP LOGIC ---
                 // If the email was sent, show the OTP Screen instead of the Pager
-                if (authState is AuthState.OtpSent || authState is AuthState.Error) {
+                // Also show it if we are already on the OTP screen but got an error verifying it
+                val showOtpScreen =
+                        authState is AuthState.OtpSent ||
+                                (authState is AuthState.Error &&
+                                        (authState as AuthState.Error).message == "Invalid Code") ||
+                                (authState is AuthState.Loading &&
+                                        pagerState.currentPage ==
+                                                2 /* This was probably not why, but keep it robust */)
+
+                // However, since we don't track *which* screen we were on properly in state,
+                // let's create a local boolean to track if we've successfully reached OTP stage
+                var hasReachedOtp by remember { mutableStateOf(false) }
+
+                LaunchedEffect(authState) {
+                        if (authState is AuthState.OtpSent) {
+                                hasReachedOtp = true
+                        }
+                }
+
+                if (hasReachedOtp) {
                         Column(
                                 modifier = Modifier.weight(1f).padding(32.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -101,7 +120,9 @@ fun OnboardingScreen(
                                 Spacer(modifier = Modifier.height(24.dp))
 
                                 Button(
-                                        onClick = { viewModel.verifyOtp(userEmail, otpCode) },
+                                        onClick = {
+                                                viewModel.verifyOtp(userEmail, otpCode, userName)
+                                        },
                                         modifier = Modifier.fillMaxWidth().height(56.dp),
                                         colors =
                                                 ButtonDefaults.buttonColors(

@@ -31,7 +31,7 @@ data class LessonRow(
 // 2. The Sealed Class handling the different types of UI cards
 @Serializable
 sealed class LessonItem {
-    abstract val id: String
+        abstract val id: String
 }
 
 @Serializable
@@ -72,4 +72,13 @@ data class Option(
         val id: String,
         val text: String,
         @SerialName("is_correct") val isCorrect: Boolean
+)
+
+@Serializable
+data class UserProfile(
+        val id: String,
+        val username: String? = "Trader",
+        @SerialName("total_xp") val totalXp: Int = 0,
+        @SerialName("current_streak") val currentStreak: Int = 0,
+        val hearts: Int = 5
 )

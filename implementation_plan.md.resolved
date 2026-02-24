@@ -1,0 +1,60 @@
+# Implement React/Tailwind UI in Android Jetpack Compose
+
+## Goal Description
+The objective is to overhaul the Android app (`com.example.tradelearn`) UI to mathematically and visually match the provided Tailwind CSS-based web designs inside the `img-layout` and `trading-academy` React project. 
+
+The Android app will use **Jetpack Compose** to build these visually rich interfaces, incorporating smooth gradients, dynamic shapes for nodes (like the learning path map), progress bars, custom icons, and interactive states. 
+
+No DB scheme or backend logic changes are required unless necessitated by the new UI components. (The SQL fix [04_fix_user_trigger.sql](file:///c:/Users/aayan/OneDrive/Desktop/TradeLearn/sql/04_fix_user_trigger.sql) has already been created to address user sign-up DB errors).
+
+## Proposed Changes
+
+We will refactor or create the following UI components in `app/src/main/java/com/example/tradelearn/ui/`:
+
+### 1. Theming & Colors
+*   **[MODIFY]** `theme/Color.kt` and `theme/Theme.kt`
+    *   Add the tailwind color palette (Slate 900/500/100, Blue 500, Yellow 400 for stars, Red 500 for hearts, Green 500 for lessons, etc.).
+
+### 2. Main Navigation & Bottom Bar
+*   **[MODIFY]** `navigation/MainNavigation.kt`
+    *   Add the new screens (`LeaderboardScreen`, `QuestsScreen`) to the navigation graph.
+    *   Update the `BottomNavigationBar` to have 5 tabs matching the UI (Home, Leaderboard, Quests, Profile - maybe removing one depending on the actual design). The typical Duolingo-style bottom bar has these main tabs.
+
+### 3. Home / Learning Path Dashboard
+*   **[MODIFY]** `HomeMapScreen.kt`
+    *   Build a vertical scrollable column representing the learning path map.
+    *   Implement custom Box/Canvas nodes connected by dashed curved lines (or simple vertical connectors).
+    *   States for nodes: Completed (Star), Current (Bouncing Tooltip & Blue Pulsing Ring), Locked (Greyed out).
+    *   Add the floating "Guidebook" button.
+
+### 4. Interactive Lesson Screen
+*   **[MODIFY]** `LessonScreen.kt`
+    *   **Header**: Progress bar, X button to close, Heart count.
+    *   **Main**: Top prompt text, Interactive Chart Graphic (Candlesticks built with simple Box shapes or Canvas).
+    *   **Options Array**: Selectable rounded rectangles with letter prefix (A, B, C, D) and border highlighting.
+    *   **Footer**: Sliding bottom-bar that changes color (Green/Red) upon answering, complete with "Check/Continue" button.
+
+### 5. Profile Screen
+*   **[MODIFY]** `ProfileScreen.kt`
+    *   **Header**: User Avatar, Name, Join Date.
+    *   **Stats Grid**: 2x2 grid showing Day Streak, Total XP, Current League, and Top 3 Finishes.
+    *   **Tabs**: TabRow for Badges / Stats.
+    *   **Content**: Vertical list of unlocked/locked achievements.
+
+### 6. Quests Screen
+*   **[NEW]** `QuestsScreen.kt`
+    *   Daily & Monthly quest categories.
+    *   LinearProgressIndicator for each quest track.
+    *   Reward chest icons.
+
+### 7. Leaderboard Screen
+*   **[NEW]** `LeaderboardScreen.kt`
+    *   Top 3 podium display for 1st, 2nd, 3rd place with customized heights and medals.
+    *   LazyColumn for the remaining users in the league.
+
+## Verification Plan
+
+### Manual Verification
+*   Build the Android project (`./gradlew assembleDebug` or similar).
+*   Run the app in the emulator or via Compose Preview.
+*   Visually inspect the exact pixel padding, color matches, typography scale, and shape corner radii against the reference HTML/PNG files natively inside Android Studio or an Emulator.
